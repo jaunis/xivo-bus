@@ -1,17 +1,13 @@
 # -*- coding: utf-8 -*-
 
-import json
 from xivo_bus_ng import entity
+from xivo_bus_ng.marshal import marshal
 
 
 class Event(object):
 
     def marshal(self):
-        return json.dumps({'name': self.name, 'data': self._to_data()})
-
-    def _to_data(self):
-        # to be overriden in derived class
-        return None
+        return marshal(self)
 
 
 class CallFormResultEvent(Event):
@@ -26,7 +22,7 @@ class CallFormResultEvent(Event):
     def publish(self, connection):
         connection.basic_publish(self.exchange.name, self.name, self.marshal())
 
-    def _to_data(self):
+    def marshal(self):
         # XXX name is ugly
         return {
             'user_id': self.user_id,

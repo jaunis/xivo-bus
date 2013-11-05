@@ -32,14 +32,25 @@ class Connection(object):
         self._conn = None
         self._chan = None
 
-    def basic_publish(self, exchange, routing_key, body):
-        self._chan.basic_publish(exchange, routing_key, body)
+    # XXX c'est un peu inutile ces abstractions là
 
-    def exchange_declare(self, exchange, type_, durable):
-        self._chan.exchange_declare(exchange=exchange, type=type_, durable=durable)
+    def basic_cancel(self, consumer_tag):
+        return self._chan.basic_cancel(consumer_tag=consumer_tag)
 
-    def queue_declare(self):
-        pass
+    def basic_consume(self, callback, queue_name, no_ack):
+        return self._chan.basic_consume(callback, queue_name, no_ack)
+
+    def basic_publish(self, exchange_name, routing_key, body):
+        return self._chan.basic_publish(exchange_name, routing_key, body)
+
+    def exchange_declare(self, exchange_name, exchange_type, durable):
+        return self._chan.exchange_declare(exchange=exchange_name, type=exchange_type, durable=durable)
+
+    def queue_declare(self, queue_name, durable, exclusive=False):
+        return self._chan.queue_declare(queue=queue_name, durable=durable, exclusive=exclusive)
 
     def queue_bind(self):
         pass
+
+    def start_consuming(self):
+        self._chan.start_consuming()

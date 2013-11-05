@@ -16,5 +16,13 @@ def declare(entity):
     _client.declare(entity)
 
 
+def new_consumer(queue, no_ack):
+    return _client.new_consumer(queue, no_ack)
+
+
 def publish(message):
     _client.publish(message)
+
+
+def start_consuming():
+    _client.start_consuming()

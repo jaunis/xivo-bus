@@ -32,4 +32,4 @@ xivo_cti_exchange = Exchange('xivo-cti', 'direct', True)
 xivo_exchange = Exchange('xivo', 'fanout', False)
 
 # XXX could be in their own module "entity.queues"
-xivo_agent_queue = Queue('xivo-agent', False)
+xivo_agent_queue = Queue('xivo_agent', False)
